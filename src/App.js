@@ -28,24 +28,29 @@ const soundName = {
 export default function App() {
   const [display, setDisplay] = useState("");
   const soundRef = useRef({});
+  const [activeKey, setActiveKey] = useState(null);
+
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+
   const handleKeyPress = (event) => {
-    const key = event.key.toUpperCase();
-    if (soundArr[key]) {
-      playSound(key);
+    if (soundArr[event.key.toUpperCase()]) {
+      playSound(event.key.toUpperCase());
     }
   };
+
   const playSound = (key) => {
     const audio = soundRef.current[key];
     if (audio) {
       audio.currentTime = 0;
       audio.play();
       setDisplay(soundName[key]);
+      setActiveKey(key);
+      setTimeout(() => setActiveKey(null), 200);
     }
   };
 
@@ -54,7 +59,7 @@ export default function App() {
       <div id="display">{display}</div>
       <div id="buttonSet1">
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "Q" ? "active" : ""}`}
           id={soundName.Q}
           onClick={() => playSound("Q")}
         >
@@ -67,7 +72,7 @@ export default function App() {
           Q
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "W" ? "active" : ""}`}
           id={soundName.W}
           onClick={() => playSound("W")}
         >
@@ -80,7 +85,7 @@ export default function App() {
           W
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "E" ? "active" : ""}`}
           id={soundName.E}
           onClick={() => playSound("E")}
         >
@@ -95,7 +100,7 @@ export default function App() {
       </div>
       <div id="buttonSet2">
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "A" ? "active" : ""}`}
           id={soundName.A}
           onClick={() => playSound("A")}
         >
@@ -108,7 +113,7 @@ export default function App() {
           A
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "S" ? "active" : ""}`}
           id={soundName.S}
           onClick={() => playSound("S")}
         >
@@ -121,7 +126,7 @@ export default function App() {
           S
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "D" ? "active" : ""}`}
           id={soundName.D}
           onClick={() => playSound("D")}
         >
@@ -136,7 +141,7 @@ export default function App() {
       </div>
       <div id="buttonSet3">
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "Z" ? "active" : ""}`}
           id={soundName.Z}
           onClick={() => playSound("Z")}
         >
@@ -149,7 +154,7 @@ export default function App() {
           Z
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "X" ? "active" : ""}`}
           id={soundName.X}
           onClick={() => playSound("X")}
         >
@@ -162,7 +167,7 @@ export default function App() {
           X
         </button>
         <button
-          className="drum-pad"
+          className={`drum-pad ${activeKey === "C" ? "active" : ""}`}
           id={soundName.C}
           onClick={() => playSound("C")}
         >
